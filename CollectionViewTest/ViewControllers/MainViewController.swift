@@ -19,6 +19,9 @@ class MainViewController: UIViewController {
 
     var numberOfColumns = 3.0
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+    var selectedIndexPath: IndexPath?
+
+    private let transitionAnimator = SharedTransitionAnimator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +40,7 @@ class MainViewController: UIViewController {
             self?.collectionView.reloadSections(IndexSet(integer: 0))
         }
 
+        navigationController?.delegate = self
     }
 
     private func setupCollectionView() {
@@ -94,10 +98,41 @@ extension MainViewController: UICollectionViewDataSource {
 extension MainViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedIndexPath = indexPath
         if let navigationController {
             navigationController.pushViewController(DetailViewController(
                 characterDetails: mockData[indexPath.section][indexPath.row]), animated: true)
         }
+    }
+
+}
+
+
+extension MainViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController,
+                              animationControllerFor operation: UINavigationController.Operation,
+                              from fromVC: UIViewController,
+                              to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        if fromVC is Self, toVC is DetailViewController {
+            transitionAnimator.transition = .push
+            return transitionAnimator
+        }
+        if toVC is Self, fromVC is DetailViewController {
+            transitionAnimator.transition = .pop
+            return transitionAnimator
+        }
+        return nil
+    }
+}
+
+
+extension MainViewController: SharedTransitioning {
+
+    var sharedFrame: CGRect {
+        guard let selectedIndexPath,
+              let cell = collectionView.cellForItem(at: selectedIndexPath),
+              let frame = cell.frameInWindow else { return .zero }
+        return frame
     }
 
 }

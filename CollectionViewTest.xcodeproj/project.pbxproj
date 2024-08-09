@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D324DFC02C6611B000F54DBC /* SharedTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFBF2C6611B000F54DBC /* SharedTransitionAnimator.swift */; };
+		D324DFC32C66167A00F54DBC /* CGAffineTransform+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFC22C66167700F54DBC /* CGAffineTransform+Extension.swift */; };
+		D324DFC52C6617F100F54DBC /* CGRect+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFC42C6617EC00F54DBC /* CGRect+Extension.swift */; };
+		D324DFC72C66188500F54DBC /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFC62C66188100F54DBC /* UIView+Extension.swift */; };
+		D324DFC92C66197C00F54DBC /* UIViewControllerContextTransitioning+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFC82C66197700F54DBC /* UIViewControllerContextTransitioning+Extension.swift */; };
 		D3D8D1E12C64F27600286F51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D8D1E02C64F27600286F51 /* AppDelegate.swift */; };
 		D3D8D1E32C64F27600286F51 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D8D1E22C64F27600286F51 /* SceneDelegate.swift */; };
 		D3D8D1E52C64F27600286F51 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D8D1E42C64F27600286F51 /* MainViewController.swift */; };
@@ -20,6 +25,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D324DFBF2C6611B000F54DBC /* SharedTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTransitionAnimator.swift; sourceTree = "<group>"; };
+		D324DFC22C66167700F54DBC /* CGAffineTransform+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGAffineTransform+Extension.swift"; sourceTree = "<group>"; };
+		D324DFC42C6617EC00F54DBC /* CGRect+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Extension.swift"; sourceTree = "<group>"; };
+		D324DFC62C66188100F54DBC /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		D324DFC82C66197700F54DBC /* UIViewControllerContextTransitioning+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewControllerContextTransitioning+Extension.swift"; sourceTree = "<group>"; };
 		D3D8D1DD2C64F27600286F51 /* CollectionViewTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3D8D1E02C64F27600286F51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3D8D1E22C64F27600286F51 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +55,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D324DFBE2C66118E00F54DBC /* TransitionAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				D324DFBF2C6611B000F54DBC /* SharedTransitionAnimator.swift */,
+			);
+			path = TransitionAnimation;
+			sourceTree = "<group>";
+		};
+		D324DFC12C66166F00F54DBC /* Extenisons */ = {
+			isa = PBXGroup;
+			children = (
+				D324DFC82C66197700F54DBC /* UIViewControllerContextTransitioning+Extension.swift */,
+				D324DFC62C66188100F54DBC /* UIView+Extension.swift */,
+				D324DFC42C6617EC00F54DBC /* CGRect+Extension.swift */,
+				D324DFC22C66167700F54DBC /* CGAffineTransform+Extension.swift */,
+			);
+			path = Extenisons;
+			sourceTree = "<group>";
+		};
 		D3D8D1D42C64F27600286F51 = {
 			isa = PBXGroup;
 			children = (
@@ -64,6 +93,8 @@
 		D3D8D1DF2C64F27600286F51 /* CollectionViewTest */ = {
 			isa = PBXGroup;
 			children = (
+				D324DFC12C66166F00F54DBC /* Extenisons */,
+				D324DFBE2C66118E00F54DBC /* TransitionAnimation */,
 				D3D8D1FD2C650A4E00286F51 /* Models */,
 				D3D8D1F72C64F55A00286F51 /* Views */,
 				D3D8D1FA2C64F8B700286F51 /* ViewControllers */,
@@ -186,13 +217,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D324DFC72C66188500F54DBC /* UIView+Extension.swift in Sources */,
+				D324DFC32C66167A00F54DBC /* CGAffineTransform+Extension.swift in Sources */,
 				D3D8D1E52C64F27600286F51 /* MainViewController.swift in Sources */,
 				D3D8D1E12C64F27600286F51 /* AppDelegate.swift in Sources */,
+				D324DFC02C6611B000F54DBC /* SharedTransitionAnimator.swift in Sources */,
 				D3D8D1FC2C64F8E600286F51 /* DetailViewController.swift in Sources */,
+				D324DFC92C66197C00F54DBC /* UIViewControllerContextTransitioning+Extension.swift in Sources */,
 				D3D8D1FF2C650A6800286F51 /* CharacterDetails.swift in Sources */,
 				D3D8D1F92C64F56B00286F51 /* CollectionCellView.swift in Sources */,
 				D3D8D2022C65109400286F51 /* MockData.swift in Sources */,
 				D3D8D1E32C64F27600286F51 /* SceneDelegate.swift in Sources */,
+				D324DFC52C6617F100F54DBC /* CGRect+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -143,3 +143,11 @@ class DetailViewController: UIViewController {
 
 }
 
+
+extension DetailViewController: SharedTransitioning {
+
+    var sharedFrame: CGRect {
+        imageView.frameInWindow ?? .zero
+    }
+
+}
