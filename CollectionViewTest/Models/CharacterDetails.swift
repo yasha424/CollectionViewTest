@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CharacterDetails {
+struct CharacterDetails: Hashable {
     let title: String
     let description: String
     let imageName: String

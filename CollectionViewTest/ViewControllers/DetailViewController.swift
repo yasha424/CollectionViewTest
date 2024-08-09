@@ -11,14 +11,16 @@ class DetailViewController: UIViewController {
 
     let characterDetails: CharacterDetails
 
-    let imageView = UIImageView()
-    let titleView = UILabel()
-    let scrollView = UIScrollView()
-    let descriptionTextView = UILabel()
+    private let imageView = UIImageView()
+    private let titleView = UILabel()
+    private let scrollView = UIScrollView()
+    private let descriptionTextView = UILabel()
 
     private let transitionAnimator = SharedTransitionAnimator()
     private var interactionController: SharedTransitionInteractionController?
     private lazy var recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+
+    private var isChangingOrientation: Bool = false
 
     init(characterDetails: CharacterDetails) {
         self.characterDetails = characterDetails
@@ -26,12 +28,21 @@ class DetailViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
+    override func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
+        isChangingOrientation = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) { [weak self] in
+            self?.isChangingOrientation = false
+        }
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewLayoutMarginsDidChange() {
+    override func viewSafeAreaInsetsDidChange() {
         super.viewLayoutMarginsDidChange()
+
+        removeConstraints()
 
         layoutImageView()
         layoutTitleView()
@@ -55,27 +66,40 @@ class DetailViewController: UIViewController {
         setupScrollView()
     }
 
+    private func removeConstraints() {
+        descriptionTextView.snp.removeConstraints()
+        scrollView.snp.removeConstraints()
+        titleView.snp.removeConstraints()
+        imageView.snp.removeConstraints()
+    }
+
     private func setupImageView() {
         self.view.addSubview(imageView)
 
         imageView.image = UIImage(named: characterDetails.imageName)
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.masksToBounds = true
+        imageView.clipsToBounds = true
+
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageViewTapped)))
 
         layoutImageView()
     }
 
-    func layoutImageView() {
-        imageView.snp.removeConstraints()
+    @objc private func imageViewTapped() {
+        self.navigationController?.pushViewController(ImageViewController(imageName: characterDetails.imageName), animated: true)
+    }
 
+    private func layoutImageView() {
         imageView.snp.makeConstraints { make in
-            if UIDevice.current.orientation == .portrait {
-                make.top.left.right.equalTo(self.view)//.safeAreaLayoutGuide)
-                make.height.equalTo(260)
-            } else {
+            switch UIDevice.current.orientation {
+            case .landscapeLeft, .landscapeRight:
                 make.top.left.equalTo(self.view.safeAreaLayoutGuide)
                 make.width.equalTo(self.view.safeAreaLayoutGuide.layoutFrame.width / 2)
                 make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-60)
+            default:
+                make.top.left.right.equalTo(self.view)
+                make.height.equalTo(260)
             }
         }
     }
@@ -87,19 +111,20 @@ class DetailViewController: UIViewController {
         titleView.font = .boldSystemFont(ofSize: 24)
 
         layoutTitleView()
+
+        titleView.backgroundColor = .clear
     }
 
-    func layoutTitleView() {
-        titleView.snp.removeConstraints()
-
+    private func layoutTitleView() {
         titleView.snp.makeConstraints { make in
-            if UIDevice.current.orientation == .portrait {
+            switch UIDevice.current.orientation {
+            case .landscapeLeft, .landscapeRight:
+                make.bottom.left.equalTo(self.view.safeAreaLayoutGuide)
+                make.height.equalTo(30)
+            default:
                 make.top.equalTo(imageView.snp.bottom).offset(20)
                 make.left.equalTo(self.view.safeAreaLayoutGuide).offset(10)
                 make.right.equalTo(self.view.safeAreaLayoutGuide).offset(-10)
-            } else {
-                make.bottom.left.equalTo(self.view.safeAreaLayoutGuide)
-                make.height.equalTo(30)
             }
         }
 
@@ -123,43 +148,41 @@ class DetailViewController: UIViewController {
     }
 
     private func layoutScrollView() {
-        scrollView.snp.removeConstraints()
-
         scrollView.snp.makeConstraints { make in
-            if UIDevice.current.orientation == .portrait {
-                make.top.equalTo(titleView.snp.bottom)
-                make.left.right.bottom.equalToSuperview()
-            } else {
+            switch UIDevice.current.orientation {
+            case .landscapeLeft, .landscapeRight:
                 make.left.equalTo(imageView.snp.right).offset(20)
                 make.top.right.bottom.equalToSuperview()
+            default:
+                make.top.equalTo(titleView.snp.bottom)
+                make.left.right.bottom.equalToSuperview()
             }
         }
     }
 
     private func layoutDescriptionTextView() {
-        descriptionTextView.snp.removeConstraints()
-
         descriptionTextView.snp.makeConstraints { make in
-            if UIDevice.current.orientation == .portrait {
-                make.left.equalTo(self.view.safeAreaLayoutGuide).offset(10)
-                make.right.equalTo(self.view.safeAreaLayoutGuide).offset(-10)
-                make.bottom.equalToSuperview()
-                make.top.equalToSuperview().offset(20)
-            } else {
+            switch UIDevice.current.orientation {
+            case .landscapeLeft, .landscapeRight:
                 make.left.equalTo(imageView.snp.right).offset(20)
                 make.right.equalTo(self.view.safeAreaLayoutGuide)
                 make.bottom.equalToSuperview()
                 make.top.equalToSuperview()
+            default:
+                make.left.equalTo(self.view.safeAreaLayoutGuide).offset(10)
+                make.right.equalTo(self.view.safeAreaLayoutGuide).offset(-10)
+                make.bottom.equalToSuperview()
+                make.top.equalToSuperview().offset(20)
             }
         }
     }
 
-    @objc func handlePan(_ recognizer: UIPanGestureRecognizer) {
-        let window = UIApplication.shared.connectedScenes.compactMap { ($0 as? UIWindowScene)?.keyWindow }.last!
+    @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
+        guard !isChangingOrientation else { return }
+        let window = UIApplication.shared.connectedScenes.compactMap { ($0 as? UIWindowScene)?.keyWindow }.first!
 
         switch recognizer.state {
         case .began:
-            let velocity = recognizer.velocity(in: window)
             interactionController = SharedTransitionInteractionController()
             navigationController?.popViewController(animated: true)
         case .changed:
@@ -194,8 +217,12 @@ extension DetailViewController: UINavigationControllerDelegate {
                               animationControllerFor operation: UINavigationController.Operation,
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        guard fromVC is Self, toVC is MainViewController else { return nil }
-        transitionAnimator.transition = .pop
+        if (fromVC is Self && toVC is MainViewController) {
+            transitionAnimator.transition = .pop
+        } else if fromVC is Self, toVC is ImageViewController {
+            transitionAnimator.transition = .push
+        }
+
         return transitionAnimator
     }
 

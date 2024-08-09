@@ -13,8 +13,8 @@
 		D324DFC72C66188500F54DBC /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFC62C66188100F54DBC /* UIView+Extension.swift */; };
 		D324DFC92C66197C00F54DBC /* UIViewControllerContextTransitioning+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFC82C66197700F54DBC /* UIViewControllerContextTransitioning+Extension.swift */; };
 		D324DFCB2C661FB100F54DBC /* SharedTransitionInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFCA2C661FB000F54DBC /* SharedTransitionInteractionController.swift */; };
+		D3C2FB8A2C6668A100B5142E /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C2FB892C66689900B5142E /* ImageViewController.swift */; };
 		D3D8D1E12C64F27600286F51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D8D1E02C64F27600286F51 /* AppDelegate.swift */; };
-		D3D8D1E32C64F27600286F51 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D8D1E22C64F27600286F51 /* SceneDelegate.swift */; };
 		D3D8D1E52C64F27600286F51 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D8D1E42C64F27600286F51 /* MainViewController.swift */; };
 		D3D8D1EA2C64F27700286F51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3D8D1E92C64F27700286F51 /* Assets.xcassets */; };
 		D3D8D1ED2C64F27700286F51 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = D3D8D1EC2C64F27700286F51 /* Base */; };
@@ -32,9 +32,9 @@
 		D324DFC62C66188100F54DBC /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		D324DFC82C66197700F54DBC /* UIViewControllerContextTransitioning+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewControllerContextTransitioning+Extension.swift"; sourceTree = "<group>"; };
 		D324DFCA2C661FB000F54DBC /* SharedTransitionInteractionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTransitionInteractionController.swift; sourceTree = "<group>"; };
+		D3C2FB892C66689900B5142E /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		D3D8D1DD2C64F27600286F51 /* CollectionViewTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3D8D1E02C64F27600286F51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D3D8D1E22C64F27600286F51 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D3D8D1E42C64F27600286F51 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		D3D8D1E92C64F27700286F51 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3D8D1EC2C64F27700286F51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -102,7 +102,6 @@
 				D3D8D1F72C64F55A00286F51 /* Views */,
 				D3D8D1FA2C64F8B700286F51 /* ViewControllers */,
 				D3D8D1E02C64F27600286F51 /* AppDelegate.swift */,
-				D3D8D1E22C64F27600286F51 /* SceneDelegate.swift */,
 				D3D8D2002C65107100286F51 /* Helpers */,
 				D3D8D1E92C64F27700286F51 /* Assets.xcassets */,
 				D3D8D1EB2C64F27700286F51 /* LaunchScreen.storyboard */,
@@ -122,6 +121,7 @@
 		D3D8D1FA2C64F8B700286F51 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D3C2FB892C66689900B5142E /* ImageViewController.swift */,
 				D3D8D1E42C64F27600286F51 /* MainViewController.swift */,
 				D3D8D1FB2C64F8E600286F51 /* DetailViewController.swift */,
 			);
@@ -227,11 +227,11 @@
 				D324DFC02C6611B000F54DBC /* SharedTransitionAnimator.swift in Sources */,
 				D3D8D1FC2C64F8E600286F51 /* DetailViewController.swift in Sources */,
 				D324DFC92C66197C00F54DBC /* UIViewControllerContextTransitioning+Extension.swift in Sources */,
+				D3C2FB8A2C6668A100B5142E /* ImageViewController.swift in Sources */,
 				D3D8D1FF2C650A6800286F51 /* CharacterDetails.swift in Sources */,
 				D324DFCB2C661FB100F54DBC /* SharedTransitionInteractionController.swift in Sources */,
 				D3D8D1F92C64F56B00286F51 /* CollectionCellView.swift in Sources */,
 				D3D8D2022C65109400286F51 /* MockData.swift in Sources */,
-				D3D8D1E32C64F27600286F51 /* SceneDelegate.swift in Sources */,
 				D324DFC52C6617F100F54DBC /* CGRect+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -383,6 +383,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -410,6 +411,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

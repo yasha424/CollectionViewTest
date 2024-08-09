@@ -28,6 +28,8 @@ class SharedTransitionInteractionController: NSObject {
 
 extension SharedTransitionInteractionController: UIViewControllerInteractiveTransitioning {
 
+    var wantsInteractiveStart: Bool { false }
+
     func startInteractiveTransition(_ transitionContext: any UIViewControllerContextTransitioning) {
         guard let (fromView, fromFrame, toView, toFrame) = setup(with: transitionContext) else {
             transitionContext.completeTransition(false)
@@ -83,7 +85,7 @@ extension SharedTransitionInteractionController: UIViewControllerInteractiveTran
         return (fromView, fromFrame, toView, toFrame)
     }
 
-    func update(_ recognizer: UIPanGestureRecognizer) {
+    func update(_ recognizer: UIPanGestureRecognizer, _ completion: ((_ progress: CGFloat) -> Void)? = nil) {
         guard let context else { return }
 
         let window = UIApplication.shared.connectedScenes.compactMap { ($0 as? UIWindowScene)?.keyWindow }.last!
@@ -95,8 +97,11 @@ extension SharedTransitionInteractionController: UIViewControllerInteractiveTran
         var scaleFactor = 1 - progress * 0.2
         scaleFactor = min(max(scaleFactor, 0.4), 1)
 
+
         context.fromView.transform = .init(scaleX: scaleFactor, y: scaleFactor)
             .translatedBy(x: translation.x, y: translation.y)
+
+        completion?(progress)
     }
 
     func cancel() {

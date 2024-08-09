@@ -10,18 +10,19 @@ import SnapKit
 
 class MainViewController: UIViewController {
 
-    var collectionView: UICollectionView!
+    private var collectionView: UICollectionView!
+    private var mockData = [[CharacterDetails]]()
 
-    var mockData = MockData.data
-
-    var numberOfColumns = 3.0
-    let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-    var selectedIndexPath: IndexPath?
+    private var numberOfColumns = 3.0
+    private let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+    private var selectedIndexPath: IndexPath?
 
     private let transitionAnimator = SharedTransitionAnimator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.view.backgroundColor = .systemBackground
 
         layout.sectionInset = .init(top: 0, left: 0, bottom: 20, right: 0)
         layout.minimumInteritemSpacing = 1
@@ -31,16 +32,13 @@ class MainViewController: UIViewController {
         setupCollectionView()
 
         layoutCollectionView()
-
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-//            self?.mockData = MockData.data
-//            self?.collectionView.reloadSections(IndexSet(integer: 0))
-//        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.delegate = self
+        mockData = MockData.data
+        collectionView.reloadData()
     }
 
     private func setupCollectionView() {
@@ -54,15 +52,22 @@ class MainViewController: UIViewController {
         collectionView.register(CollectionCellView.self, forCellWithReuseIdentifier: "cell")
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.delaysContentTouches = false
     }
 
-    override func viewLayoutMarginsDidChange() {
+    override func viewSafeAreaInsetsDidChange() {
         layoutCollectionView()
     }
 
     private func layoutCollectionView() {
         let safeAreaWidth = view.frame.width - (view.safeAreaInsets.left + view.safeAreaInsets.right)
-        numberOfColumns = UIDevice.current.orientation == .portrait ? 3 : 5
+
+        switch UIDevice.current.orientation {
+        case .landscapeLeft, .landscapeRight:
+            numberOfColumns = 5
+        default:
+            numberOfColumns = 3
+        }
 
         let cellWidth = safeAreaWidth / numberOfColumns - (numberOfColumns - 1) / numberOfColumns
         layout.itemSize = CGSize(width: cellWidth, height: cellWidth)
@@ -82,7 +87,6 @@ extension MainViewController: UICollectionViewDataSource {
 
         if let cell = cell as? CollectionCellView {
             cell.imageView.image = UIImage(named: characterDetail.imageName)
-            //            cell.label.text = characterDetail.title
         }
 
         return cell
@@ -109,6 +113,7 @@ extension MainViewController: UICollectionViewDelegate {
 
 
 extension MainViewController: UINavigationControllerDelegate {
+
     func navigationController(_ navigationController: UINavigationController,
                               animationControllerFor operation: UINavigationController.Operation,
                               from fromVC: UIViewController,
@@ -123,6 +128,7 @@ extension MainViewController: UINavigationControllerDelegate {
         }
         return nil
     }
+
 }
 
 
