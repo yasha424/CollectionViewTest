@@ -16,17 +16,18 @@ class DetailViewController: UIViewController {
     let scrollView = UIScrollView()
     let descriptionTextView = UILabel()
 
+    private let transitionAnimator = SharedTransitionAnimator()
+    private var interactionController: SharedTransitionInteractionController?
+    private lazy var recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
 
     init(characterDetails: CharacterDetails) {
         self.characterDetails = characterDetails
 
         super.init(nibName: nil, bundle: nil)
+    }
 
-        self.view.backgroundColor = .systemBackground
-
-        setupImageView()
-        setupTitleView()
-        setupScrollView()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func viewLayoutMarginsDidChange() {
@@ -38,8 +39,20 @@ class DetailViewController: UIViewController {
         layoutDescriptionTextView()
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.delegate = self
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .systemBackground
+        self.navigationController?.navigationBar.isHidden = true
+        self.view.addGestureRecognizer(recognizer)
+
+        setupImageView()
+        setupTitleView()
+        setupScrollView()
     }
 
     private func setupImageView() {
@@ -47,7 +60,7 @@ class DetailViewController: UIViewController {
 
         imageView.image = UIImage(named: characterDetails.imageName)
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
+        imageView.layer.masksToBounds = true
 
         layoutImageView()
     }
@@ -57,8 +70,8 @@ class DetailViewController: UIViewController {
 
         imageView.snp.makeConstraints { make in
             if UIDevice.current.orientation == .portrait {
-                make.top.left.right.equalTo(self.view.safeAreaLayoutGuide)
-                make.height.equalTo(200)
+                make.top.left.right.equalTo(self.view)//.safeAreaLayoutGuide)
+                make.height.equalTo(260)
             } else {
                 make.top.left.equalTo(self.view.safeAreaLayoutGuide)
                 make.width.equalTo(self.view.safeAreaLayoutGuide.layoutFrame.width / 2)
@@ -86,7 +99,7 @@ class DetailViewController: UIViewController {
                 make.right.equalTo(self.view.safeAreaLayoutGuide).offset(-10)
             } else {
                 make.bottom.left.equalTo(self.view.safeAreaLayoutGuide)
-                make.height.equalTo(20)
+                make.height.equalTo(30)
             }
         }
 
@@ -141,6 +154,29 @@ class DetailViewController: UIViewController {
         }
     }
 
+    @objc func handlePan(_ recognizer: UIPanGestureRecognizer) {
+        let window = UIApplication.shared.connectedScenes.compactMap { ($0 as? UIWindowScene)?.keyWindow }.last!
+
+        switch recognizer.state {
+        case .began:
+            let velocity = recognizer.velocity(in: window)
+            interactionController = SharedTransitionInteractionController()
+            navigationController?.popViewController(animated: true)
+        case .changed:
+            interactionController?.update(recognizer)
+        case .ended:
+            if recognizer.velocity(in: window).x > 0 || recognizer.velocity(in: window).y > 0 {
+                interactionController?.finish()
+            } else {
+                interactionController?.cancel()
+            }
+            interactionController = nil
+        default:
+            interactionController?.cancel()
+            interactionController = nil
+        }
+    }
+
 }
 
 
@@ -150,4 +186,21 @@ extension DetailViewController: SharedTransitioning {
         imageView.frameInWindow ?? .zero
     }
 
+}
+
+
+extension DetailViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController,
+                              animationControllerFor operation: UINavigationController.Operation,
+                              from fromVC: UIViewController,
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        guard fromVC is Self, toVC is MainViewController else { return nil }
+        transitionAnimator.transition = .pop
+        return transitionAnimator
+    }
+
+    func navigationController(_ navigationController: UINavigationController,
+                              interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        interactionController
+    }
 }

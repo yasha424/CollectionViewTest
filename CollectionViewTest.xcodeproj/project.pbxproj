@@ -12,6 +12,7 @@
 		D324DFC52C6617F100F54DBC /* CGRect+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFC42C6617EC00F54DBC /* CGRect+Extension.swift */; };
 		D324DFC72C66188500F54DBC /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFC62C66188100F54DBC /* UIView+Extension.swift */; };
 		D324DFC92C66197C00F54DBC /* UIViewControllerContextTransitioning+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFC82C66197700F54DBC /* UIViewControllerContextTransitioning+Extension.swift */; };
+		D324DFCB2C661FB100F54DBC /* SharedTransitionInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFCA2C661FB000F54DBC /* SharedTransitionInteractionController.swift */; };
 		D3D8D1E12C64F27600286F51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D8D1E02C64F27600286F51 /* AppDelegate.swift */; };
 		D3D8D1E32C64F27600286F51 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D8D1E22C64F27600286F51 /* SceneDelegate.swift */; };
 		D3D8D1E52C64F27600286F51 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D8D1E42C64F27600286F51 /* MainViewController.swift */; };
@@ -30,6 +31,7 @@
 		D324DFC42C6617EC00F54DBC /* CGRect+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Extension.swift"; sourceTree = "<group>"; };
 		D324DFC62C66188100F54DBC /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		D324DFC82C66197700F54DBC /* UIViewControllerContextTransitioning+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewControllerContextTransitioning+Extension.swift"; sourceTree = "<group>"; };
+		D324DFCA2C661FB000F54DBC /* SharedTransitionInteractionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTransitionInteractionController.swift; sourceTree = "<group>"; };
 		D3D8D1DD2C64F27600286F51 /* CollectionViewTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3D8D1E02C64F27600286F51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3D8D1E22C64F27600286F51 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 		D324DFBE2C66118E00F54DBC /* TransitionAnimation */ = {
 			isa = PBXGroup;
 			children = (
+				D324DFCA2C661FB000F54DBC /* SharedTransitionInteractionController.swift */,
 				D324DFBF2C6611B000F54DBC /* SharedTransitionAnimator.swift */,
 			);
 			path = TransitionAnimation;
@@ -225,6 +228,7 @@
 				D3D8D1FC2C64F8E600286F51 /* DetailViewController.swift in Sources */,
 				D324DFC92C66197C00F54DBC /* UIViewControllerContextTransitioning+Extension.swift in Sources */,
 				D3D8D1FF2C650A6800286F51 /* CharacterDetails.swift in Sources */,
+				D324DFCB2C661FB100F54DBC /* SharedTransitionInteractionController.swift in Sources */,
 				D3D8D1F92C64F56B00286F51 /* CollectionCellView.swift in Sources */,
 				D3D8D2022C65109400286F51 /* MockData.swift in Sources */,
 				D3D8D1E32C64F27600286F51 /* SceneDelegate.swift in Sources */,

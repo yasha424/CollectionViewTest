@@ -12,10 +12,7 @@ class MainViewController: UIViewController {
 
     var collectionView: UICollectionView!
 
-    var mockData = [
-        MockData.data[0].prefix(4).map { $0 },
-        MockData.data[1]
-    ]
+    var mockData = MockData.data
 
     var numberOfColumns = 3.0
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -35,11 +32,14 @@ class MainViewController: UIViewController {
 
         layoutCollectionView()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.mockData = MockData.data
-            self?.collectionView.reloadSections(IndexSet(integer: 0))
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+//            self?.mockData = MockData.data
+//            self?.collectionView.reloadSections(IndexSet(integer: 0))
+//        }
+    }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         navigationController?.delegate = self
     }
 
