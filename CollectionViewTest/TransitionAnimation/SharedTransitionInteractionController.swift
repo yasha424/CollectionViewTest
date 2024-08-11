@@ -22,6 +22,7 @@ class SharedTransitionInteractionController: NSObject {
     }
 
     private var context: Context?
+    private(set) var progress: CGFloat = 0
 
 }
 
@@ -91,7 +92,7 @@ extension SharedTransitionInteractionController: UIViewControllerInteractiveTran
 
         let window = UIApplication.shared.connectedScenes.compactMap { ($0 as? UIWindowScene)?.keyWindow }.first!
         let translation = recognizer.translation(in: window)
-        let progress = abs(translation.x / window.frame.width) + abs(translation.y / window.frame.height)
+        progress = abs(translation.x / window.frame.width) + abs(translation.y / window.frame.height)
 
         context.transitionContext.updateInteractiveTransition(progress)
 

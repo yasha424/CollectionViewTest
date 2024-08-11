@@ -181,7 +181,6 @@ class DetailViewController: UIViewController {
 
     @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
         guard !isChangingOrientation else { return }
-        let window = UIApplication.shared.connectedScenes.compactMap { ($0 as? UIWindowScene)?.keyWindow }.first!
 
         switch recognizer.state {
         case .began:
@@ -190,12 +189,13 @@ class DetailViewController: UIViewController {
         case .changed:
             interactionController?.update(recognizer)
         case .ended:
-            if recognizer.velocity(in: window).x > 0 || recognizer.velocity(in: window).y > 0 {
-                interactionController?.finish()
+            guard let interactionController else { return }
+            if interactionController.progress > 0.25 {
+                interactionController.finish()
             } else {
-                interactionController?.cancel()
+                interactionController.cancel()
             }
-            interactionController = nil
+            self.interactionController = nil
         default:
             interactionController?.cancel()
             interactionController = nil

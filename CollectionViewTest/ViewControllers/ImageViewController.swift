@@ -55,7 +55,7 @@ class ImageViewController: UIViewController {
         contentView.snp.makeConstraints { make in
             make.top.left.right.bottom.equalTo(self.view)
         }
-        contentView.backgroundColor = .systemBackground
+        contentView.backgroundColor = .black
 
         imageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -75,14 +75,17 @@ class ImageViewController: UIViewController {
     @objc private func imagePinched() {
         switch pinchRecognizer.state {
         case .changed:
-            guard 0.3...3.0 ~= imageView.transform.a || pinchRecognizer.scale < 1 else { return }
-
             let pinchCenter = CGPoint(x: pinchRecognizer.location(in: imageView).x - imageView.bounds.midX,
                                       y: pinchRecognizer.location(in: imageView).y - imageView.bounds.midY)
+
             let transform = imageView.transform.translatedBy(x: pinchCenter.x, y: pinchCenter.y)
                 .scaledBy(x: pinchRecognizer.scale, y: pinchRecognizer.scale)
                 .translatedBy(x: -pinchCenter.x, y: -pinchCenter.y)
-            imageView.transform = transform
+                .translatedBy(x: pinchCenter.x, y: pinchCenter.y)
+
+            UIView.animate(withDuration: 0.05) { [weak self] in
+                self?.imageView.transform = transform
+            }
             pinchRecognizer.scale = 1
         case .ended:
             UIView.animate(withDuration: 0.25) { [weak self] in
@@ -104,21 +107,27 @@ class ImageViewController: UIViewController {
 
     @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
         guard !isChangingOrientation else { return }
-        let window = UIApplication.shared.connectedScenes.compactMap { ($0 as? UIWindowScene)?.keyWindow }.first!
 
         switch recognizer.state {
         case .began:
             interactionController = SharedTransitionInteractionController()
             navigationController?.popViewController(animated: true)
         case .changed:
-            interactionController?.update(recognizer)
+            guard let interactionController else { return }
+            interactionController.update(recognizer)
+            let opacity = max(min(1 - interactionController.progress * 10, 1), 0)
+            contentView.backgroundColor = .black.withAlphaComponent(opacity)
         case .ended:
-            if recognizer.velocity(in: window).x > 0 || recognizer.velocity(in: window).y > 0 {
-                interactionController?.finish()
+            guard let interactionController else { return }
+            if interactionController.progress > 0.1 {
+                interactionController.finish()
             } else {
-                interactionController?.cancel()
+                UIView.animate(withDuration: 0.25) { [weak self] in
+                    self?.contentView.backgroundColor = .black
+                }
+                interactionController.cancel()
             }
-            interactionController = nil
+            self.interactionController = nil
         default:
             interactionController?.cancel()
             interactionController = nil
