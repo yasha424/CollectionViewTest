@@ -23,10 +23,12 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = .systemBackground
+        self.navigationController?.navigationBar.isHidden = true
 
         layout.sectionInset = .init(top: 0, left: 0, bottom: 20, right: 0)
         layout.minimumInteritemSpacing = 1
         layout.minimumLineSpacing = 1
+        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 30)
 
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         setupCollectionView()
@@ -45,29 +47,26 @@ class MainViewController: UIViewController {
         self.view.addSubview(collectionView)
 
         collectionView.snp.makeConstraints { make in
-            make.top.left.right.equalTo(self.view.safeAreaLayoutGuide)
-            make.bottom.equalTo(self.view)
+            make.left.right.equalTo(self.view.safeAreaLayoutGuide)
+            make.top.bottom.equalTo(self.view)
         }
 
+        collectionView.register(SectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "sectionHeader")
         collectionView.register(CollectionCellView.self, forCellWithReuseIdentifier: "cell")
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.delaysContentTouches = false
     }
 
-    override func viewSafeAreaInsetsDidChange() {
+    override func viewLayoutMarginsDidChange() {
+        super.viewLayoutMarginsDidChange()
         layoutCollectionView()
     }
 
     private func layoutCollectionView() {
         let safeAreaWidth = view.frame.width - (view.safeAreaInsets.left + view.safeAreaInsets.right)
 
-        switch UIDevice.current.orientation {
-        case .landscapeLeft, .landscapeRight:
-            numberOfColumns = 5
-        default:
-            numberOfColumns = 3
-        }
+        numberOfColumns = Double(Int(safeAreaWidth / 150) + 1)
 
         let cellWidth = safeAreaWidth / numberOfColumns - (numberOfColumns - 1) / numberOfColumns
         layout.itemSize = CGSize(width: cellWidth, height: cellWidth)
@@ -76,6 +75,23 @@ class MainViewController: UIViewController {
 
 
 extension MainViewController: UICollectionViewDataSource {
+
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            if let sectionHeader = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "sectionHeader",
+                for: indexPath
+            ) as? SectionHeaderView {
+                sectionHeader.label.text = MockData.pirateTeams[indexPath.section]
+                return sectionHeader
+            }
+        }
+
+        return UICollectionReusableView()
+    }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return mockData[section].count
@@ -103,10 +119,10 @@ extension MainViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedIndexPath = indexPath
-        if let navigationController {
-            navigationController.pushViewController(DetailViewController(
-                characterDetails: mockData[indexPath.section][indexPath.row]), animated: true)
-        }
+        navigationController?.pushViewController(
+            DetailViewController(characterDetails: mockData[indexPath.section][indexPath.row]),
+            animated: true
+        )
     }
 
 }

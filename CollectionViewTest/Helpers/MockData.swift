@@ -35,4 +35,6 @@ struct MockData {
     ]
 
     static let data = [strawHatPirates, heartPirates]
+
+    static let pirateTeams = ["Straw Hat Pirates", "Heart Pirates"]
 }

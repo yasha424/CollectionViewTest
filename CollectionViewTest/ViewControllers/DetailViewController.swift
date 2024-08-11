@@ -40,7 +40,7 @@ class DetailViewController: UIViewController {
     }
 
     override func viewSafeAreaInsetsDidChange() {
-        super.viewLayoutMarginsDidChange()
+        super.viewSafeAreaInsetsDidChange()
 
         removeConstraints()
 
@@ -78,6 +78,8 @@ class DetailViewController: UIViewController {
 
         imageView.image = UIImage(named: characterDetails.imageName)
         imageView.contentMode = .scaleAspectFill
+
+        imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
 
         imageView.isUserInteractionEnabled = true

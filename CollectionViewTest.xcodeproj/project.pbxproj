@@ -13,6 +13,8 @@
 		D324DFC72C66188500F54DBC /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFC62C66188100F54DBC /* UIView+Extension.swift */; };
 		D324DFC92C66197C00F54DBC /* UIViewControllerContextTransitioning+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFC82C66197700F54DBC /* UIViewControllerContextTransitioning+Extension.swift */; };
 		D324DFCB2C661FB100F54DBC /* SharedTransitionInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D324DFCA2C661FB000F54DBC /* SharedTransitionInteractionController.swift */; };
+		D327F0B02C68B31400F5A58F /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D327F0AF2C68B31400F5A58F /* UIView+Extensions.swift */; };
+		D327F0B62C68BA1100F5A58F /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D327F0B52C68BA0C00F5A58F /* SectionHeaderView.swift */; };
 		D3C2FB8A2C6668A100B5142E /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C2FB892C66689900B5142E /* ImageViewController.swift */; };
 		D3D8D1E12C64F27600286F51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D8D1E02C64F27600286F51 /* AppDelegate.swift */; };
 		D3D8D1E52C64F27600286F51 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D8D1E42C64F27600286F51 /* MainViewController.swift */; };
@@ -32,6 +34,8 @@
 		D324DFC62C66188100F54DBC /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		D324DFC82C66197700F54DBC /* UIViewControllerContextTransitioning+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewControllerContextTransitioning+Extension.swift"; sourceTree = "<group>"; };
 		D324DFCA2C661FB000F54DBC /* SharedTransitionInteractionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTransitionInteractionController.swift; sourceTree = "<group>"; };
+		D327F0AF2C68B31400F5A58F /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		D327F0B52C68BA0C00F5A58F /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		D3C2FB892C66689900B5142E /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		D3D8D1DD2C64F27600286F51 /* CollectionViewTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3D8D1E02C64F27600286F51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,12 +73,20 @@
 		D324DFC12C66166F00F54DBC /* Extenisons */ = {
 			isa = PBXGroup;
 			children = (
+				D327F0AF2C68B31400F5A58F /* UIView+Extensions.swift */,
 				D324DFC82C66197700F54DBC /* UIViewControllerContextTransitioning+Extension.swift */,
 				D324DFC62C66188100F54DBC /* UIView+Extension.swift */,
 				D324DFC42C6617EC00F54DBC /* CGRect+Extension.swift */,
 				D324DFC22C66167700F54DBC /* CGAffineTransform+Extension.swift */,
 			);
 			path = Extenisons;
+			sourceTree = "<group>";
+		};
+		D327F0AA2C68B29C00F5A58F /* Transition */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Transition;
 			sourceTree = "<group>";
 		};
 		D3D8D1D42C64F27600286F51 = {
@@ -96,12 +108,13 @@
 		D3D8D1DF2C64F27600286F51 /* CollectionViewTest */ = {
 			isa = PBXGroup;
 			children = (
+				D327F0AA2C68B29C00F5A58F /* Transition */,
+				D3D8D1E02C64F27600286F51 /* AppDelegate.swift */,
 				D324DFC12C66166F00F54DBC /* Extenisons */,
 				D324DFBE2C66118E00F54DBC /* TransitionAnimation */,
 				D3D8D1FD2C650A4E00286F51 /* Models */,
 				D3D8D1F72C64F55A00286F51 /* Views */,
 				D3D8D1FA2C64F8B700286F51 /* ViewControllers */,
-				D3D8D1E02C64F27600286F51 /* AppDelegate.swift */,
 				D3D8D2002C65107100286F51 /* Helpers */,
 				D3D8D1E92C64F27700286F51 /* Assets.xcassets */,
 				D3D8D1EB2C64F27700286F51 /* LaunchScreen.storyboard */,
@@ -113,6 +126,7 @@
 		D3D8D1F72C64F55A00286F51 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D327F0B52C68BA0C00F5A58F /* SectionHeaderView.swift */,
 				D3D8D1F82C64F56B00286F51 /* CollectionCellView.swift */,
 			);
 			path = Views;
@@ -222,8 +236,10 @@
 			files = (
 				D324DFC72C66188500F54DBC /* UIView+Extension.swift in Sources */,
 				D324DFC32C66167A00F54DBC /* CGAffineTransform+Extension.swift in Sources */,
+				D327F0B62C68BA1100F5A58F /* SectionHeaderView.swift in Sources */,
 				D3D8D1E52C64F27600286F51 /* MainViewController.swift in Sources */,
 				D3D8D1E12C64F27600286F51 /* AppDelegate.swift in Sources */,
+				D327F0B02C68B31400F5A58F /* UIView+Extensions.swift in Sources */,
 				D324DFC02C6611B000F54DBC /* SharedTransitionAnimator.swift in Sources */,
 				D3D8D1FC2C64F8E600286F51 /* DetailViewController.swift in Sources */,
 				D324DFC92C66197C00F54DBC /* UIViewControllerContextTransitioning+Extension.swift in Sources */,

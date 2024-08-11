@@ -46,18 +46,15 @@ extension SharedTransitionInteractionController: UIViewControllerInteractiveTran
         mask.layer.cornerCurve = .continuous
         mask.backgroundColor = .black
         mask.layer.cornerRadius = 39
-        fromView.mask = mask
 
         let placeholder = UIView()
-        placeholder.frame = fromFrame
+        placeholder.frame = toFrame
         placeholder.backgroundColor = .white
-        toView.addSubview(placeholder)
 
         let overlay = UIView()
         overlay.backgroundColor = .black
         overlay.layer.opacity = 0.5
         overlay.frame = toView.frame
-        toView.addSubview(overlay)
 
         context = Context(
             transitionContext: transitionContext,
@@ -70,6 +67,10 @@ extension SharedTransitionInteractionController: UIViewControllerInteractiveTran
             overlay: overlay,
             placeholder: placeholder
         )
+
+        fromView.mask = mask
+        toView.addSubview(placeholder)
+        toView.addSubview(overlay)
     }
 
     private func setup(with context: UIViewControllerContextTransitioning) -> (UIView, CGRect, UIView, CGRect)? {
@@ -88,7 +89,7 @@ extension SharedTransitionInteractionController: UIViewControllerInteractiveTran
     func update(_ recognizer: UIPanGestureRecognizer, _ completion: ((_ progress: CGFloat) -> Void)? = nil) {
         guard let context else { return }
 
-        let window = UIApplication.shared.connectedScenes.compactMap { ($0 as? UIWindowScene)?.keyWindow }.last!
+        let window = UIApplication.shared.connectedScenes.compactMap { ($0 as? UIWindowScene)?.keyWindow }.first!
         let translation = recognizer.translation(in: window)
         let progress = abs(translation.x / window.frame.width) + abs(translation.y / window.frame.height)
 
@@ -115,11 +116,9 @@ extension SharedTransitionInteractionController: UIViewControllerInteractiveTran
             context.mask.layer.cornerRadius = 39
             context.overlay.layer.opacity = 0.5
         } completion: { _ in
-
             context.overlay.removeFromSuperview()
             context.placeholder.removeFromSuperview()
             context.toView.removeFromSuperview()
-
             context.transitionContext.completeTransition(false)
         }
     }

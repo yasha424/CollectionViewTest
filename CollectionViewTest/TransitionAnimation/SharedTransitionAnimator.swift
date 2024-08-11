@@ -19,7 +19,7 @@ class SharedTransitionAnimator: NSObject {
 
     var transition: Transition = .push
 
-    private let transitionDuration = 0.4
+    private let transitionDuration = 0.25
     private let animation = UIView.AnimationOptions.curveEaseInOut
 }
 

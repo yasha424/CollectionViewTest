@@ -30,6 +30,7 @@ class CollectionCellView: UICollectionViewCell {
         }
 
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
     }
 

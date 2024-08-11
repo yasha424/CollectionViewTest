@@ -86,10 +86,7 @@ class ImageViewController: UIViewController {
             interactionController = SharedTransitionInteractionController()
             navigationController?.popViewController(animated: true)
         case .changed:
-            interactionController?.update(recognizer) { [weak self] progress in
-                let opacity = max(min(1 - progress, 1), 0)
-                self?.contentView.backgroundColor = .systemBackground.withAlphaComponent(opacity)
-            }
+            interactionController?.update(recognizer)
         case .ended:
             if recognizer.velocity(in: window).x > 0 || recognizer.velocity(in: window).y > 0 {
                 interactionController?.finish()
