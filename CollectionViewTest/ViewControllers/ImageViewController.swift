@@ -18,13 +18,14 @@ class ImageViewController: UIViewController {
     private var interactionController: SharedTransitionInteractionController?
     private lazy var recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
     private var isChangingOrientation = false
+    private lazy var pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(imagePinched))
 
     init(imageName: String) {
         self.imageName = imageName
 
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -67,6 +68,30 @@ class ImageViewController: UIViewController {
         imageView.image = UIImage(named: imageName)
 
         contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewTapped)))
+        imageView.addGestureRecognizer(pinchRecognizer)
+        imageView.isUserInteractionEnabled = true
+    }
+
+    @objc private func imagePinched() {
+        switch pinchRecognizer.state {
+        case .changed:
+            guard 0.3...3.0 ~= imageView.transform.a || pinchRecognizer.scale < 1 else { return }
+
+            let pinchCenter = CGPoint(x: pinchRecognizer.location(in: imageView).x - imageView.bounds.midX,
+                                      y: pinchRecognizer.location(in: imageView).y - imageView.bounds.midY)
+            let transform = imageView.transform.translatedBy(x: pinchCenter.x, y: pinchCenter.y)
+                .scaledBy(x: pinchRecognizer.scale, y: pinchRecognizer.scale)
+                .translatedBy(x: -pinchCenter.x, y: -pinchCenter.y)
+            imageView.transform = transform
+            pinchRecognizer.scale = 1
+        case .ended:
+            UIView.animate(withDuration: 0.25) { [weak self] in
+                self?.imageView.transform = .identity
+            }
+
+        default:
+            return
+        }
     }
 
     @objc private func viewTapped() {
